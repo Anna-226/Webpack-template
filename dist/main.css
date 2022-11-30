@@ -1,0 +1,108 @@
+/*!**************************************************************************************************************!*\
+  !*** css ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./styles/style.scss ***!
+  \**************************************************************************************************************/
+@import url(https://fonts.googleapis.com/css?family=Poppins:regular,700&display=swap);
+/*!******************************************************************************************************************!*\
+  !*** css ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./styles/style.scss (1) ***!
+  \******************************************************************************************************************/
+@font-face {
+  font-family: 'Roboto';
+  src: url(03523cf578d69fa92322.ttf) format("truetype"); }
+
+@use "sass:math";
+* {
+  padding: 0px;
+  margin: 0px;
+  border: 0px; }
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box; }
+
+html,
+body {
+  height: 100%;
+  min-width: 320px; }
+
+body {
+  font-size: 16px;
+  font-family: "Poppins";
+  line-height: 140%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+input,
+button,
+textarea {
+  font-size: inherit; }
+
+button {
+  cursor: pointer;
+  color: inherit;
+  background-color: inherit; }
+
+a {
+  color: inherit; }
+
+a:link,
+a:visited {
+  text-decoration: none; }
+
+a:hover {
+  text-decoration: none; }
+
+ul li {
+  list-style: none; }
+
+img {
+  vertical-align: top; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: inherit;
+  font-size: inherit; }
+
+.wrapper {
+  background-color: #fff;
+  min-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative; }
+  .wrapper > main {
+    flex: 1 1 auto; }
+  .wrapper > * {
+    min-width: 0; }
+
+[class*="__container"] {
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 0px 15px; }
+
+@media (max-width: 991.98px) {
+  [class*="__container"] {
+    max-width: 750px; } }
+
+@media (max-width: 767.98px) {
+  [class*="__container"] {
+    max-width: none; } }
+
+@media (max-width: 479.98px) {
+  [class*="__container"] {
+    max-width: none; } }
+
+h1 {
+  background-color: yellow;
+  font-family: 'Roboto';
+  text-align: center; }
+
+
+/*# sourceMappingURL=main.css.map*/

@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const loader = require('sass-loader');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
@@ -25,15 +26,42 @@ const optimization = () => {
    return config;
 };
 
+const filename = ext => isDev ? `[name].${ext}`: `[name].[hash].${ext}`;
+
+const cssLoaders = extra => {
+   const loaders = [
+      {
+         loader: MiniCssExtractPlugin.loader,
+         options: {},
+      }, 
+      "css-loader"
+   ];
+   if (extra) {
+      loaders.push(extra);
+   }
+   return loaders;
+};
+
+const babelOptions = preset => {
+   const opts = {
+      presets: [
+         '@babel/preset-env',
+      ]
+   };
+   if (preset) {
+      opts.presets.push(preset);
+   }
+   return opts;
+};
+
 module.exports = {
    context: path.resolve(__dirname, 'src'),
    mode: 'development',
    entry: {
-      main: './index.js',
-      analytics: './analytics.js'
+      main: ['@babel/polyfill', './js/index.js'],
    },
    output: {
-      filename: '[name].[contenthash].js',
+      filename: filename('js'),
       path: path.resolve(__dirname, 'dist')
    },
    resolve: {
@@ -50,6 +78,7 @@ module.exports = {
       client: {overlay: true},
       static: {directory: path.join(__dirname)}
    },
+   devtool: isDev ? 'source-map' : false,
    plugins: [
       new HtmlWebpackPlugin({
          template: './index.html',
@@ -67,18 +96,26 @@ module.exports = {
          ]
       }),
       new MiniCssExtractPlugin({
-         filename: '[name].[contenthash].css',
+         filename: filename('css'),
       })
    ],
    module: {
       rules: [
          {
+            test: /\.html$/,
+            loader: "html-loader",
+         },
+         {
             test: /\.css$/,
-            use: [{
-                  loader: MiniCssExtractPlugin.loader,
-                  options: {},
-               }, "css-loader",
-            ]
+            use: cssLoaders(),
+         },
+         {
+            test: /\.less$/,
+            use: cssLoaders("less-loader"),
+         },
+         {
+            test: /\.s[ac]ss$/,
+            use: cssLoaders("sass-loader"),
          },
          {
             test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -95,6 +132,30 @@ module.exports = {
          {
             test: /\.csv$/,
             use: ['csv-loader']
+         },
+         {
+            test: /\.m?js$/,
+            exclude: /node_modules/,
+            use: {
+               loader: 'babel-loader',
+               options: babelOptions(),
+            }
+         },
+         {
+            test: /\.ts$/,
+            exclude: /node_modules/,
+            use: {
+               loader: 'babel-loader',
+               options: babelOptions('@babel/preset-typescript'),
+            }
+         },
+         {
+            test: /\.jsx$/,
+            exclude: /node_modules/,
+            use: {
+               loader: 'babel-loader',
+               options: babelOptions('@babel/preset-react'),
+            }
          }
       ]
    }
